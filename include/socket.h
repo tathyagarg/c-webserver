@@ -7,5 +7,7 @@ int set_socket_options(int socket);
 int bind_socket(int socket, int port);
 int listen_socket(int socket);
 int accept_socket(int socket);
+int read_socket(int socket, char *buffer, int len);
+int write_socket(int socket, char *buffer, int len);
 
 #endif

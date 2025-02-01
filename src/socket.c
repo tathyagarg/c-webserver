@@ -32,3 +32,11 @@ int accept_socket(int socket) {
   socklen_t addr_len = sizeof(addr);
   return accept(socket, (struct sockaddr *)&addr, &addr_len);
 }
+
+int read_socket(int socket, char *buffer, int len) {
+  return recv(socket, buffer, len, 0);
+}
+
+int write_socket(int socket, char *buffer, int len) {
+  return send(socket, buffer, len, 0);
+}
