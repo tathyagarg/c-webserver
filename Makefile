@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -pedantic -std=c99
+CFLAGS := -Wall -Wextra -Werror -pedantic -std=gnu99
 
 SRC := src
 BIN := bin
@@ -18,7 +18,7 @@ BATCH_SIZE := 100
 all: build run
 
 build: $(BIN)
-	$(CC) $(CFLAGS) -o $(BIN)/main $(wildcard $(SRC)/*.c) -I$(INCLUDE)
+	$(CC) $(CFLAGS) -o $(BIN)/main $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/handlers/*.c) -I$(INCLUDE)
 
 run: $(BIN)/main
 	$(BIN)/main $(BIN_OPTS)
