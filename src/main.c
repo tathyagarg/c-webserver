@@ -1,4 +1,5 @@
 #include "../include/argparse.h"
+#include "../include/request.h"
 #include "../include/socket.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +24,10 @@ int main(int argc, char *argv[]) {
   while (1) {
     client = accept_socket(socket);
     read_socket(client, buffer, MAX_BUFLEN);
+    struct Request *request = parse_request(buffer);
+    printf("Path: %s\n", request->path);
+    printf("Method: %d\n", request->method);
+
     write_socket(client, response, response_len);
 
     close_socket(client);
