@@ -23,7 +23,7 @@ char *status_text(enum Status status) {
 struct Request *parse_request(char *buffer) {
   struct Request *request = malloc(sizeof(struct Request));
   request->method = parse_method(strtok(buffer, " "));
-  printf("Strtok: %s\n", strtok(NULL, " "));
+  request->path = strtok(NULL, " ");
 
   return request;
 }
