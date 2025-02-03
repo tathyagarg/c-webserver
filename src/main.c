@@ -44,11 +44,12 @@ int main(int argc, char *argv[]) {
     char *response_text = make_response(response);
 
     write_socket(client, response_text, strlen(response_text));
+
+    close_socket(client);
     free(request);
     free(response->headers);
     free(response);
-
-    close_socket(client);
+    free(response_text);
   }
   free(router->handlers);
   free(router->paths);

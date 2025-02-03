@@ -6,7 +6,6 @@ void get_root(struct Request *request, struct Response *response) {
   response->status = OK;
   response->status_text = status_text(OK);
   response->body = request->target;
-  response->body[1] = 0;
   response->headers = (struct Header *)malloc(sizeof(struct Header *) * 10);
 
   unsigned long len = strlen(response->body);

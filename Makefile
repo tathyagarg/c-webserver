@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -pedantic -std=gnu99
+CFLAGS := -Wall -Werror -pedantic -std=gnu99
 
 SRC := src
 BIN := bin
