@@ -8,6 +8,7 @@ enum Method {
   POST,
   PUT,
   DELETE,
+  HEAD,
   UNKNOWN,
 };
 

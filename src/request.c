@@ -122,6 +122,8 @@ enum Method parse_method(char *method) {
     return PUT;
   } else if (strcmp(method, "DELETE") == 0) {
     return DELETE;
+  } else if (strcmp(method, "HEAD") == 0) {
+    return HEAD;
   }
   return UNKNOWN;
 }

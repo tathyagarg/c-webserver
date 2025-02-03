@@ -20,11 +20,11 @@ success = 0
 fail = 0
 
 
-def thread():
+def thread(path: str, status_code: int, function):
     global success, fail
     for _ in range(BATCH_SIZE):
-        resp = requests.get(f"http://{HOST}:{PORT}")
-        if resp.status_code == 200:
+        resp = function(f"http://{HOST}:{PORT}{path}")
+        if resp.status_code == status_code:
             success += 1
         else:
             fail += 1
@@ -32,8 +32,22 @@ def thread():
 
 def main():
     threads = []
-    for _ in range(THREAD_COUNT):
-        t = threading.Thread(target=thread)
+    paths = {
+        "/": 200,
+        "/this_doesnt_exist": 404,
+        "/get_ep": 405,
+    }
+    functions = {
+        "/": requests.get,
+        "/this_doesnt_exist": requests.get,
+        "/get_ep": requests.post,
+    }
+
+    for i in range(THREAD_COUNT):
+        path, status_code = list(paths.items())[i % len(paths)]
+        function = functions[path]
+
+        t = threading.Thread(target=thread(path, status_code, function))
 
         threads.append(t)
         t.start()
