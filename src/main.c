@@ -47,7 +47,9 @@ int main(int argc, char *argv[]) {
 
     close_socket(client);
     free(request);
-    free(response->headers);
+    if (response->header_count > 0) {
+      free(response->headers);
+    }
     free(response);
     free(response_text);
   }
