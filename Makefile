@@ -6,7 +6,7 @@ BIN := bin
 INCLUDE := include
 STRESS := stress
 
-PORT := 8080
+PORT ?= 8080
 
 BIN_OPTS := --port $(PORT) 
 

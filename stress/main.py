@@ -18,16 +18,37 @@ BATCH_SIZE: int = args.batch_size
 
 success = 0
 fail = 0
+thread_statuses = [0] * THREAD_COUNT
 
 
-def thread(path: str, status_code: int, function):
+def display_status(size: int = 20):
+    filled = round(size * sum(thread_statuses) / (THREAD_COUNT * BATCH_SIZE))
+    print(
+        "[",
+        "=" * filled,
+        " " * (size - filled),
+        "]",
+        f" {sum(thread_statuses)/(THREAD_COUNT * BATCH_SIZE)*100:.2f}%",
+        end="\r",
+        sep="",
+    )
+
+
+def thread(path: str, status_code: int, function, i: int):
     global success, fail
     for _ in range(BATCH_SIZE):
-        resp = function(f"http://{HOST}:{PORT}{path}")
+        try:
+            resp = function(f"http://{HOST}:{PORT}{path}")
+        except requests.exceptions.ConnectionError as e:
+            print()
+            raise e
         if resp.status_code == status_code:
             success += 1
         else:
             fail += 1
+
+        thread_statuses[i] += 1
+        display_status()
 
 
 def main():
@@ -43,11 +64,12 @@ def main():
         "/get_ep": requests.post,
     }
 
+    display_status()
     for i in range(THREAD_COUNT):
         path, status_code = list(paths.items())[i % len(paths)]
         function = functions[path]
 
-        t = threading.Thread(target=thread(path, status_code, function))
+        t = threading.Thread(target=thread(path, status_code, function, i))
 
         threads.append(t)
         t.start()
@@ -55,7 +77,7 @@ def main():
     for t in threads:
         t.join()
 
-    print(f"Results: {success}/{success+fail}")
+    print(f"\nSuccess: {success}, Fail: {fail}")
 
 
 if __name__ == "__main__":
