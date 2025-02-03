@@ -22,19 +22,8 @@ int main(int argc, char *argv[]) {
   char *buffer = malloc(MAX_BUFLEN);
 
   struct Router *router = malloc(sizeof(struct Router));
-  router->count = 2;
-  router->paths = malloc(sizeof(char *) * router->count);
-  router->handlers = malloc(
-      sizeof(void (*)(struct Request *, struct Response *)) * router->count);
-  router->methods = malloc(sizeof(enum Method) * router->count);
-
-  router->paths[0] = "/";
-  router->handlers[0] = get_root;
-  router->methods[0] = GET;
-
-  router->paths[1] = "/get_ep";
-  router->handlers[1] = get_get_ep;
-  router->methods[1] = GET;
+  add_route(router, "/", get_root, GET);
+  add_route(router, "/get_ep", get_get_ep, GET);
 
   while (1) {
     client = accept_socket(socket);

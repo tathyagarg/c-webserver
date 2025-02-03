@@ -1,6 +1,23 @@
 #include "../include/request.h"
 #include "../include/routing.h"
+#include <stdlib.h>
 #include <string.h>
+
+void add_route(struct Router *router, char *path,
+               void (*handler)(struct Request *, struct Response *),
+               enum Method method) {
+  router->count++;
+  router->paths = realloc(router->paths, sizeof(char *) * router->count);
+  router->handlers = realloc(
+      router->handlers,
+      sizeof(void (*)(struct Request *, struct Response *)) * router->count);
+  router->methods =
+      realloc(router->methods, sizeof(enum Method) * router->count);
+
+  router->paths[router->count - 1] = path;
+  router->handlers[router->count - 1] = handler;
+  router->methods[router->count - 1] = method;
+}
 
 void not_found(struct Request *request, struct Response *response) {
   response->status = NOT_FOUND;
