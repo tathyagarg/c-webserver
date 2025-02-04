@@ -37,6 +37,12 @@ int main(int argc, char *argv[]) {
     write_socket(client, response_text, strlen(response_text));
 
     close_socket(client);
+    if (request->header_count > 0) {
+      free(request->headers);
+    }
+    if (request->query_count > 0) {
+      free(request->query);
+    }
     free(request);
     if (response->header_count > 0) {
       free(response->headers);

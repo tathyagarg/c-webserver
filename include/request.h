@@ -63,12 +63,19 @@ struct Header {
   char *value;
 };
 
+struct Query {
+  char *key;
+  char *value;
+};
+
 struct Request {
   enum Method method;
   char *target;
   enum HTTP_Protocol protocol;
   struct Header *headers;
   int header_count;
+  struct Query *query;
+  int query_count;
   char *body;
 };
 
