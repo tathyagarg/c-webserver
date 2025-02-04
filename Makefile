@@ -7,6 +7,7 @@ INCLUDE := include
 STRESS := stress
 
 PORT ?= 8080
+BIN_NAME ?= main
 
 BIN_OPTS := --port $(PORT) 
 
@@ -18,10 +19,10 @@ BATCH_SIZE := 100
 all: build run
 
 build: $(BIN)
-	$(CC) $(CFLAGS) -o $(BIN)/main $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/handlers/*.c) -I$(INCLUDE)
+	$(CC) $(CFLAGS) -o $(BIN)/$(BIN_NAME) $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/handlers/*.c) -I$(INCLUDE)
 
 run: $(BIN)/main
-	$(BIN)/main $(BIN_OPTS)
+	$(BIN)/$(BIN_NAME) $(BIN_OPTS)
 
 stress:
 	python $(STRESS)/main.py --host localhost --port $(PORT) --thread_count $(THREAD_COUNT) --batch_size $(BATCH_SIZE)
@@ -29,5 +30,5 @@ stress:
 $(BIN):
 	mkdir -p $(BIN)
 
-$(BIN)/main: build
+$(BIN)/$(BIN_NAME): build
 
