@@ -88,6 +88,8 @@ enum HTTP_Protocol parse_protocol(char *protocol);
 char *make_response(struct Response *response);
 char *itoa(unsigned long val);
 
+char *read_from(char *fname);
+
 #define MIME_TEXT_PLAIN "text/plain"
 #define MIME_TEXT_HTML "text/html"
 #define MIME_TEXT_CSS "text/css"

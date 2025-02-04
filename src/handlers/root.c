@@ -21,7 +21,7 @@ void get_root(struct Request *request, struct Response *response) {
 void get_get_ep(struct Request *request, struct Response *response) {
   response->status = OK;
   response->status_text = status_text(OK);
-  response->body = "GET /get_ep";
+  response->body = read_from("templates/index.html");
   response->header_count = 2;
   response->headers =
       (struct Header *)malloc(sizeof(struct Header) * response->header_count);
@@ -29,6 +29,6 @@ void get_get_ep(struct Request *request, struct Response *response) {
   unsigned long len = strlen(response->body);
   char *len_str = itoa(len);
 
-  response->headers[0] = CONTENT_TYPE(MIME_TEXT_PLAIN);
+  response->headers[0] = CONTENT_TYPE(MIME_TEXT_HTML);
   response->headers[1] = CONTENT_LENGTH(len_str);
 }

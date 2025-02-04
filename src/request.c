@@ -159,3 +159,22 @@ char *itoa(unsigned long val) {
   }
   return &buf[i + 1];
 }
+
+char *read_from(char *fname) {
+  // Read from fname and return the contents
+  FILE *f = fopen(fname, "r");
+  if (f == NULL) {
+    return NULL;
+  }
+
+  fseek(f, 0, SEEK_END);
+  long fsize = ftell(f);
+  fseek(f, 0, SEEK_SET);
+
+  char *string = malloc(fsize + 1);
+  fread(string, 1, fsize, f);
+  fclose(f);
+
+  string[fsize] = 0;
+  return string;
+}
