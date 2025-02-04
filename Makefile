@@ -32,3 +32,5 @@ $(BIN):
 
 $(BIN)/$(BIN_NAME): build
 
+kill:
+	pkill $(BIN_NAME)
