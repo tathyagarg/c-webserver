@@ -2,6 +2,7 @@
 #define REQUEST_H
 
 #define DEFAULT_MAX_HEADER_COUNT 10
+#define DEFAULT_MAX_QUERY_COUNT 10
 
 enum Method {
   GET,
@@ -86,5 +87,16 @@ enum Method parse_method(char *method);
 enum HTTP_Protocol parse_protocol(char *protocol);
 char *make_response(struct Response *response);
 char *itoa(unsigned long val);
+
+#define MIME_TEXT_PLAIN "text/plain"
+#define MIME_TEXT_HTML "text/html"
+#define MIME_TEXT_CSS "text/css"
+#define MIME_TEXT_JS "text/javascript"
+
+#define CONTENT_TYPE(x)                                                        \
+  (struct Header) { .key = "Content-Type", .value = x }
+
+#define CONTENT_LENGTH(x)                                                      \
+  (struct Header) { .key = "Content-Length", .value = x }
 
 #endif
