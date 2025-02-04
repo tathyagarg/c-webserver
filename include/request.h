@@ -89,6 +89,7 @@ char *make_response(struct Response *response);
 char *itoa(unsigned long val);
 
 char *read_from(char *fname);
+void file_response(char *fname, struct Response *response, char *mime_type);
 
 #define MIME_TEXT_PLAIN "text/plain"
 #define MIME_TEXT_HTML "text/html"

@@ -178,3 +178,18 @@ char *read_from(char *fname) {
   string[fsize] = 0;
   return string;
 }
+
+void file_response(char *fname, struct Response *response, char *mime_type) {
+  response->status = OK;
+  response->status_text = status_text(OK);
+  response->body = read_from(fname);
+  response->header_count = 2;
+  response->headers =
+      (struct Header *)malloc(sizeof(struct Header) * response->header_count);
+
+  unsigned long len = strlen(response->body);
+  char *len_str = itoa(len);
+
+  response->headers[0] = CONTENT_TYPE(mime_type);
+  response->headers[1] = CONTENT_LENGTH(len_str);
+}
