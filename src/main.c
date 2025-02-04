@@ -22,6 +22,8 @@ int main(int argc, char *argv[]) {
   char *buffer = malloc(MAX_BUFLEN);
 
   struct Router *router = malloc(sizeof(struct Router));
+  add_route(router, "/", get_root, GET);
+  add_route(router, "/get_ep", get_get_ep, GET);
 
   while (1) {
     client = accept_socket(socket);

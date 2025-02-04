@@ -180,9 +180,16 @@ char *read_from(char *fname) {
 }
 
 void file_response(char *fname, struct Response *response, char *mime_type) {
+  response->body = read_from(fname);
+  if (response->body == NULL) {
+    response->status = NOT_FOUND;
+    response->status_text = status_text(NOT_FOUND);
+    response->header_count = 0;
+    return;
+  }
+
   response->status = OK;
   response->status_text = status_text(OK);
-  response->body = read_from(fname);
   response->header_count = 2;
   response->headers =
       (struct Header *)malloc(sizeof(struct Header) * response->header_count);
