@@ -1,4 +1,5 @@
 import argparse
+import os
 import threading
 
 import requests
@@ -21,14 +22,15 @@ fail = 0
 thread_statuses = [0] * THREAD_COUNT
 
 
-def display_status(size: int = 20):
+def display_status(size: int = os.get_terminal_size().columns - 10):
     filled = round(size * sum(thread_statuses) / (THREAD_COUNT * BATCH_SIZE))
     print(
         "[",
         "=" * filled,
         " " * (size - filled),
-        "]",
-        f" {sum(thread_statuses)/(THREAD_COUNT * BATCH_SIZE)*100:.2f}%",
+        "] ",
+        f"{sum(thread_statuses)/(THREAD_COUNT * BATCH_SIZE)*100:0>6.2f}",
+        "%",
         end="\r",
         sep="",
     )
