@@ -110,6 +110,32 @@ struct Request *parse_request(char *buffer, struct Request *request) {
   }
   request->header_count = i;
 
+  // Queries
+  char *curr_query = strchr(request->target, '?');
+  if (curr_query != NULL) {
+    request->query = malloc(sizeof(struct Query) * DEFAULT_MAX_QUERY_COUNT);
+    curr_query += sizeof(char);
+    char *query = strtok(curr_query, "&");
+    i = 0;
+    while (query != NULL) {
+      if (i >= DEFAULT_MAX_QUERY_COUNT) {
+        request->query = realloc(request->query, sizeof(struct Query) * i * 2);
+      }
+
+      char *key = strtok(query, "=");
+      char *value = strtok(NULL, "&");
+
+      request->query[i].key = key;
+      request->query[i].value = value;
+      i++;
+
+      query = strtok(NULL, "&");
+    }
+    request->query_count = i;
+
+    request->target = strtok(request->target, "?");
+  }
+
   return request;
 }
 
